@@ -252,6 +252,9 @@ class POSView(ttk.Frame):
             # In hóa đơn
             self.print_invoice(order_id, total, self.cart.copy())
             
+            # Hiển thị mã QR thanh toán (VietQR API)
+            self.show_qr_payment(order_id, total)
+            
             self.clear_cart()
         except Exception as e:
             messagebox.showerror("Lỗi", str(e))
@@ -289,3 +292,46 @@ class POSView(ttk.Frame):
             os.startfile(filename)
         except Exception as e:
             print("Không thể mở file hóa đơn:", e)
+
+    def show_qr_payment(self, order_id, total):
+        import urllib.parse
+        
+        qr_window = ttk.Toplevel(self)
+        qr_window.title("Thanh toán mã QR - VietQR")
+        qr_window.geometry("400x550")
+        qr_window.transient(self.winfo_toplevel()) # Giữ cửa sổ QR luôn ở trên cửa sổ chính
+        qr_window.grab_set() # Khóa các tương tác ở cửa sổ dưới cho đến khi tắt popup
+        
+        ttk.Label(qr_window, text="VUI LÒNG QUÉT MÃ ĐỂ THANH TOÁN", font=("Helvetica", 14, "bold")).pack(pady=(20, 10))
+        ttk.Label(qr_window, text=f"Số tiền: {int(total):,} đ", font=("Helvetica", 18, "bold"), bootstyle="danger").pack(pady=5)
+        
+        img_lbl = ttk.Label(qr_window, text="Đang tạo mã QR...", font=("Helvetica", 12))
+        img_lbl.pack(pady=10, expand=True)
+        
+        def fetch_qr():
+            try:
+                # Cấu hình tài khoản ngân hàng của quán
+                bank_id = "techcombank"
+                account_no = "19071713001010" # Số tài khoản Techcombank của bạn
+                account_name = urllib.parse.quote("QUAN CAFE TLU")
+                add_info = urllib.parse.quote(f"Thanh toan don {order_id}")
+                
+                # Gọi API VietQR
+                url = f"https://img.vietqr.io/image/{bank_id}-{account_no}-compact2.png?amount={int(total)}&addInfo={add_info}&accountName={account_name}"
+                
+                req = urllib.request.urlopen(url)
+                img = Image.open(BytesIO(req.read()))
+                img = img.resize((320, 350), Image.Resampling.LANCZOS)
+                photo = ImageTk.PhotoImage(img)
+                
+                if img_lbl.winfo_exists():
+                    img_lbl.config(image=photo, text="")
+                    img_lbl.image = photo
+            except Exception as e:
+                if img_lbl.winfo_exists():
+                    img_lbl.config(text=f"Lỗi tải mã QR. Vui lòng kiểm tra mạng!\n{e}", bootstyle="danger")
+                    
+        # Chạy tải ảnh bằng Thread để không bị treo UI (Loading effect)
+        threading.Thread(target=fetch_qr, daemon=True).start()
+        
+        ttk.Button(qr_window, text="Xác nhận khách đã thanh toán", bootstyle="success", command=qr_window.destroy).pack(pady=20)
