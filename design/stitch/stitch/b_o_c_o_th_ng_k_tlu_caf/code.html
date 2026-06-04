@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TLU Café Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2e3132",
+                        "outline": "#8e706b",
+                        "on-secondary-fixed": "#301400",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-primary-fixed-variant": "#920703",
+                        "primary-fixed": "#ffdad4",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed": "#ffdfa0",
+                        "primary": "#610000",
+                        "on-secondary-fixed-variant": "#703800",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#3b2a00",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-primary": "#ffb4a8",
+                        "on-primary-fixed": "#410000",
+                        "on-primary-container": "#ff907f",
+                        "primary-container": "#8b0000",
+                        "secondary-fixed": "#ffdcc5",
+                        "tertiary-fixed-dim": "#fbbc00",
+                        "background": "#f8f9fa",
+                        "tertiary-container": "#573f00",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeeef",
+                        "surface": "#f8f9fa",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#e3beb8",
+                        "secondary-fixed-dim": "#ffb781",
+                        "secondary-container": "#fea054",
+                        "primary-container": "#8b0000",
+                        "secondary": "#934b00",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-low": "#f3f4f5",
+                        "on-tertiary-container": "#dfa600",
+                        "on-secondary-container": "#703800",
+                        "surface-tint": "#b52619",
+                        "on-surface-variant": "#5a403c",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "gutter": "16px",
+                        "margin-tablet": "24px",
+                        "sm": "12px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "title-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["44px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            background-color: #f8f9fa;
+            color: #191c1d;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm docked full-width top-0 flex justify-between items-center px-margin-mobile h-16 w-full z-50 sticky transition-colors duration-200">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-headline-lg-mobile" data-icon="store">store</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">TLU Café</h1>
+</div>
+<div class="font-title-lg text-title-lg text-on-surface-variant flex items-center">
+<span class="font-label-lg text-label-lg mr-xs opacity-70">Admin • 24°C</span>
+<button class="material-symbols-outlined hover:bg-surface-container-high p-xs rounded-full transition-colors" data-icon="notifications">notifications</button>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-margin-mobile md:px-margin-tablet pt-lg space-y-lg">
+<!-- Summary Cards Grid -->
+<section class="bento-grid">
+<!-- Total Revenue -->
+<div class="col-span-2 md:col-span-1 bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-xs rounded-lg" data-icon="payments">payments</span>
+<span class="text-green-600 font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> 12%
+                    </span>
+</div>
+<div class="mt-md">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total Revenue</p>
+<h2 class="font-headline-md text-headline-md text-on-surface">₫12,450k</h2>
+</div>
+</div>
+<!-- Total Orders -->
+<div class="col-span-2 md:col-span-1 bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between hover:shadow-md transition-all">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary bg-secondary-fixed p-xs rounded-lg" data-icon="receipt_long">receipt_long</span>
+<span class="text-green-600 font-label-md text-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> 8%
+                    </span>
+</div>
+<div class="mt-md">
+<p class="font-label-lg text-label-lg text-on-surface-variant">Total Orders</p>
+<h2 class="font-headline-md text-headline-md text-on-surface">342</h2>
+</div>
+</div>
+<!-- Top Selling Item -->
+<div class="col-span-4 md:col-span-2 bg-primary-container p-md rounded-xl shadow-sm flex items-center gap-md hover:brightness-105 transition-all">
+<div class="h-20 w-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface">
+<img alt="Phin Milk Coffee" class="w-full h-full object-cover" data-alt="A professional close-up shot of a traditional Vietnamese Phin coffee with condensed milk, featuring a rich brown liquid and a thick layer of creamy white milk at the bottom of a glass. The lighting is warm and inviting, highlighting the textures of the drip coffee filter. The background is a clean, modern cafe setting with a focus on deep burgundy and neutral cream tones, evoking a sense of heritage and quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGs8RG7zRKg5_OQZVEZp7sc2uJKS3plPdECkNtOFKmeWENLbolnNkdp1hJHVPaVCCEUk390NFsDwFezGGIhVGPlJcXrMmsg0TYl4d0a2wT2ZIKJEg-wsmuM6eKbCbjPqPraUf6JHexXddHXeVW3WzpOpRMgljnitWFfXw-1K6HVUO-9J815t4QBkUBb0zokg3FfzDNCSdihVbMjQGL3RCJLIWcJYdq8Rb7aURRs6kx8reQgbVPFMAJYyrIOjdzpLlY9BVsqQ5NnYM"/>
+</div>
+<div class="flex-grow">
+<div class="flex items-center gap-xs text-primary-fixed">
+<span class="material-symbols-outlined text-label-md" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-md text-label-md uppercase tracking-wider">Top Selling</span>
+</div>
+<h2 class="font-title-lg text-title-lg text-white">Phin Milk Coffee</h2>
+<p class="font-body-md text-body-md text-primary-fixed opacity-90">128 units sold today</p>
+</div>
+<span class="material-symbols-outlined text-white text-display-lg opacity-20" data-icon="workspace_premium">workspace_premium</span>
+</div>
+</section>
+<!-- Main Analytics Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+<!-- Revenue Chart -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/20">
+<div class="flex justify-between items-center mb-xl">
+<h3 class="font-title-lg text-title-lg text-on-surface">Last 7 Days Revenue</h3>
+<div class="flex gap-xs">
+<button class="px-sm py-xs bg-surface-container text-on-surface-variant font-label-md text-label-md rounded-lg hover:bg-surface-variant transition-colors">Daily</button>
+<button class="px-sm py-xs bg-primary text-white font-label-md text-label-md rounded-lg shadow-sm">Weekly</button>
+</div>
+</div>
+<!-- Custom SVG Bar Chart -->
+<div class="h-64 w-full flex items-end justify-between gap-xs pt-base">
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 45%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Mon</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 60%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Tue</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 55%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Wed</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-primary rounded-t-lg transition-all" style="height: 85%;"></div>
+<p class="font-label-md text-label-md text-primary font-bold mt-xs">Thu</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 70%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Fri</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 95%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Sat</p>
+</div>
+<div class="flex flex-col items-center flex-1 h-full justify-end group">
+<div class="w-full bg-surface-container rounded-t-lg transition-all group-hover:bg-primary-container" style="height: 80%;"></div>
+<p class="font-label-md text-label-md text-on-surface-variant mt-xs">Sun</p>
+</div>
+</div>
+</div>
+<!-- Weather Insight & Smart Suggestion -->
+<div class="space-y-lg">
+<div class="bg-secondary-container p-lg rounded-xl shadow-sm border border-secondary/20 relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-xs mb-sm">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="light_mode">light_mode</span>
+<span class="font-label-lg text-label-lg text-on-secondary-container uppercase font-bold tracking-widest">Weather Alert</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-secondary-fixed mb-xs">It's 32°C Outside!</h3>
+<p class="font-body-md text-body-md text-on-secondary-container/90 mb-lg">Recommend cold drinks for higher sales. Upsell "Iced Peach Tea" at checkout.</p>
+<button class="w-full py-sm bg-on-secondary-container text-white font-label-lg text-label-lg rounded-lg shadow-md hover:scale-[1.02] active:scale-[0.98] transition-transform">
+                            Apply Promo
+                        </button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-[120px] text-on-secondary-container opacity-10" data-icon="thermostat">thermostat</span>
+</div>
+<!-- Quick Action: Recent Orders -->
+<div class="bg-surface-container-low p-md rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-md">
+<h4 class="font-label-lg text-label-lg text-on-surface font-bold uppercase tracking-tight">Recent Orders</h4>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-primary transition-colors" data-icon="more_horiz">more_horiz</span>
+</div>
+<div class="space-y-sm">
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest rounded-lg border border-outline-variant/10">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Order #2041</p>
+<p class="font-label-md text-label-md text-on-surface-variant">2 mins ago</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface">₫85k</p>
+</div>
+<div class="flex items-center justify-between p-sm bg-surface-container-lowest rounded-lg border border-outline-variant/10">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="person">person</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Order #2040</p>
+<p class="font-label-md text-label-md text-on-surface-variant">8 mins ago</p>
+</div>
+</div>
+<p class="font-label-lg text-label-lg text-on-surface">₫120k</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inventory Warning - Bento Style Extra -->
+<section class="bg-error-container/20 border border-error/10 p-lg rounded-xl flex flex-col md:flex-row items-center justify-between gap-md">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-error text-[48px]" data-icon="warning">warning</span>
+<div>
+<h3 class="font-title-lg text-title-lg text-on-error-container">Low Stock Warning</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Milk and Roasted Coffee Beans are below 10% threshold.</p>
+</div>
+</div>
+<button class="px-lg py-sm border-2 border-error text-error font-label-lg text-label-lg rounded-lg hover:bg-error hover:text-white transition-all">
+                Restock Now
+            </button>
+</section>
+</main>
+<!-- NavigationDrawer (Contextual Summary) -->
+<aside class="fixed right-0 top-0 h-full w-80 z-[60] p-md flex flex-col bg-surface-container-low shadow-md translate-x-full lg:translate-x-0 transition-transform duration-300 hidden lg:flex">
+<div class="mb-lg pt-lg">
+<h2 class="font-headline-md text-headline-md text-primary mb-xs">Order Summary</h2>
+<p class="font-label-md text-label-md text-on-surface-variant">Real-time cafe status</p>
+</div>
+<nav class="space-y-xs flex-grow">
+<a class="flex items-center gap-md p-md bg-secondary-container text-on-secondary-container font-bold rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-body-md text-body-md">Current Order</span>
+<span class="ml-auto bg-on-secondary-container text-white px-2 py-0.5 rounded-full text-[10px]">12</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-body-md text-body-md">Order History</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="block">block</span>
+<span class="font-body-md text-body-md">Pending Voids</span>
+</a>
+<a class="flex items-center gap-md p-md text-on-surface-variant hover:bg-surface-container-highest transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" data-icon="summarize">summarize</span>
+<span class="font-body-md text-body-md">Daily Summary</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-md">
+<div class="flex justify-between items-center mb-sm">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Active Shifts</span>
+<span class="text-green-600 flex items-center gap-1 font-label-md text-label-md">
+<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> 4 Staff
+                </span>
+</div>
+<button class="w-full py-sm bg-inverse-surface text-inverse-on-surface rounded-lg font-label-lg text-label-lg hover:brightness-125 transition-all">
+                End Shift
+            </button>
+</div>
+</aside>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 bg-surface border-t border-outline-variant px-xs pb-safe lg:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-label-md text-label-md mt-1">POS</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-md text-label-md mt-1">Menu</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 transition-transform scale-95 active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="font-label-md text-label-md mt-1">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple ripple effect for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', function(e) {
+                let ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                let d = Math.max(this.clientWidth, this.clientHeight);
+                ripple.style.width = ripple.style.height = d + 'px';
+                ripple.style.left = e.clientX - this.offsetLeft - d / 2 + 'px';
+                ripple.style.top = e.clientY - this.offsetTop - d / 2 + 'px';
+                ripple.classList.add('ripple-effect');
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+    </script>
+<style>
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            pointer-events: none;
+        }
+        .ripple-effect {
+            animation: ripple 0.6s linear;
+        }
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+        
+        /* Tablet layout adjustments for side panel */
+        @media (min-width: 1024px) {
+            main {
+                margin-right: 320px;
+            }
+        }
+    </style>
+</body></html>

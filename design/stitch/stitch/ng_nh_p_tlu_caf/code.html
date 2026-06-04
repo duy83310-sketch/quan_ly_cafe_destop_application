@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TLU Café - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-surface": "#2e3132",
+                    "outline": "#8e706b",
+                    "on-secondary-fixed": "#301400",
+                    "on-tertiary-fixed-variant": "#5c4300",
+                    "on-primary-fixed-variant": "#920703",
+                    "primary-fixed": "#ffdad4",
+                    "surface-bright": "#f8f9fa",
+                    "on-primary": "#ffffff",
+                    "on-surface": "#191c1d",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e1e3e4",
+                    "tertiary-fixed": "#ffdfa0",
+                    "primary": "#610000",
+                    "on-secondary-fixed-variant": "#703800",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#261a00",
+                    "on-error-container": "#93000a",
+                    "tertiary": "#3b2a00",
+                    "surface-variant": "#e1e3e4",
+                    "inverse-primary": "#ffb4a8",
+                    "on-primary-fixed": "#410000",
+                    "on-primary-container": "#ff907f",
+                    "primary-fixed-dim": "#ffb4a8",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d9dadb",
+                    "secondary-fixed": "#ffdcc5",
+                    "tertiary-fixed-dim": "#fbbc00",
+                    "background": "#f8f9fa",
+                    "tertiary-container": "#573f00",
+                    "error": "#ba1a1a",
+                    "surface-container": "#edeeef",
+                    "surface": "#f8f9fa",
+                    "inverse-on-surface": "#f0f1f2",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#e3beb8",
+                    "secondary-fixed-dim": "#ffb781",
+                    "secondary-container": "#fea054",
+                    "primary-container": "#8b0000",
+                    "secondary": "#934b00",
+                    "surface-container-high": "#e7e8e9",
+                    "surface-container-low": "#f3f4f5",
+                    "on-tertiary-container": "#dfa600",
+                    "on-secondary-container": "#703800",
+                    "surface-tint": "#b52619",
+                    "on-surface-variant": "#5a403c",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#191c1d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "xl": "32px",
+                    "md": "16px",
+                    "xs": "8px",
+                    "lg": "24px",
+                    "base": "4px",
+                    "gutter": "16px",
+                    "margin-tablet": "24px",
+                    "sm": "12px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Inter"],
+                    "label-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "title-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["44px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f8f9fa;
+        }
+        .bg-mesh {
+            background-color: #f8f9fa;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 0, 0, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(254, 160, 84, 0.03) 0px, transparent 50%);
+        }
+        /* Focus state for inputs using brand burgundy */
+        .input-brand-focus:focus {
+            outline: none;
+            border-color: #610000;
+            box-shadow: 0 0 0 2px rgba(97, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-mesh font-body-md text-on-background min-h-screen flex items-center justify-center p-margin-mobile">
+<!-- Login Container -->
+<main class="w-full max-w-[400px] bg-surface-container-lowest p-xl rounded-xl shadow-sm border border-outline-variant/30 flex flex-col items-center">
+<!-- Logo Section -->
+<header class="mb-xl text-center">
+<img alt="TLU Café Logo" class="w-24 h-24 mb-md object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT84wjrKPoNK2HYooCR-ZDnK8t2VRLlgffHkUAJ0HyYFsgDCyVOYBtIxgAg8a3u9BszhNbitYZjED2QvY_uphh5D5SHQAZrd4AKdaRVwDXPzcNwnSCk5lKpM3v0h-9mngejxya3gwVUk5NOgtujmpiARGwFvtCrtczxSlxX1MMkMcctVjRFbymp_PfznTvXC9gXA6jeWyw-kFIzGRFpKXzB1c9Y7wm4LtBQZxXm2P4BrwOlZ34FpZXZxVGFoli8It2JWBgnoPH9lw"/>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">TLU Café</h1>
+<p class="font-body-md text-on-surface-variant mt-xs">Precision Brewing &amp; Service</p>
+</header>
+<!-- Role Selection (As requested for testing) -->
+<div class="w-full mb-lg">
+<div class="flex bg-surface-container-high p-base rounded-lg gap-base">
+<button class="flex-1 py-sm font-label-lg text-label-lg rounded-md transition-all duration-200 bg-surface-container-lowest text-primary shadow-sm" id="role-staff" onclick="setRole('staff')">
+                    Staff
+                </button>
+<button class="flex-1 py-sm font-label-lg text-label-lg rounded-md transition-all duration-200 text-on-surface-variant hover:bg-surface-variant/50" id="role-admin" onclick="setRole('admin')">
+                    Admin
+                </button>
+</div>
+</div>
+<!-- Login Form -->
+<form class="w-full space-y-lg" onsubmit="handleLogin(event)">
+<!-- Username -->
+<div class="space-y-xs">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-xs" for="username">
+<span class="material-symbols-outlined text-[18px]">person</span>
+                    Username
+                </label>
+<input class="w-full h-12 px-md font-body-md border border-outline-variant bg-surface rounded-lg input-brand-focus transition-all duration-200 text-on-surface" id="username" placeholder="Enter your ID" required="" type="text"/>
+</div>
+<!-- Password -->
+<div class="space-y-xs">
+<div class="flex justify-between items-center">
+<label class="font-label-lg text-label-lg text-on-surface flex items-center gap-xs" for="password">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                        Password
+                    </label>
+</div>
+<div class="relative">
+<input class="w-full h-12 px-md font-body-md border border-outline-variant bg-surface rounded-lg input-brand-focus transition-all duration-200 text-on-surface" id="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Login Button -->
+<button class="w-full bg-primary text-on-primary font-title-lg text-title-lg h-14 rounded-lg shadow-md hover:bg-primary-container hover:text-on-primary-container active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-sm" type="submit">
+                Login
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Links -->
+<footer class="mt-xl w-full flex flex-col gap-md items-center">
+<a class="font-label-lg text-label-lg text-primary hover:underline transition-all" href="#">
+                Forgot Password?
+            </a>
+<div class="w-full h-[1px] bg-outline-variant/30 my-xs"></div>
+<p class="font-body-md text-on-surface-variant">
+                New user? 
+                <a class="text-secondary font-label-lg hover:underline ml-xs" href="#">Sign Up</a>
+</p>
+</footer>
+</main>
+<!-- Subtle Background Accents -->
+<div class="fixed bottom-0 left-0 w-full p-md pointer-events-none opacity-40 md:opacity-100">
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant">V 4.0.2 Stable</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Thuyloi University POS Ecosystem</span>
+</div>
+<div class="text-primary opacity-20">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'wght' 100;">coffee</span>
+</div>
+</div>
+</div>
+<script>
+        function setRole(role) {
+            const staffBtn = document.getElementById('role-staff');
+            const adminBtn = document.getElementById('role-admin');
+            
+            if (role === 'staff') {
+                staffBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                staffBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-variant/50');
+                
+                adminBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                adminBtn.classList.add('text-on-surface-variant', 'hover:bg-surface-variant/50');
+            } else {
+                adminBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                adminBtn.classList.remove('text-on-surface-variant', 'hover:bg-surface-variant/50');
+                
+                staffBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                staffBtn.classList.add('text-on-surface-variant', 'hover:bg-surface-variant/50');
+            }
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const btn = event.submitter;
+            const originalContent = btn.innerHTML;
+            
+            // Interaction feedback
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> Success';
+                btn.classList.replace('bg-primary', 'bg-secondary-container');
+                btn.classList.replace('text-on-primary', 'text-on-secondary-container');
+                
+                // Simulate redirect
+                setTimeout(() => {
+                   alert('Login successful! Redirecting to POS...');
+                   btn.innerHTML = originalContent;
+                   btn.disabled = false;
+                   btn.classList.add('bg-primary');
+                   btn.classList.remove('bg-secondary-container');
+                }, 1000);
+            }, 1500);
+        }
+    </script>
+</body></html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TLU Café POS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .product-card:active { transform: scale(0.98); }
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 0.5; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#2e3132",
+                        "outline": "#8e706b",
+                        "on-secondary-fixed": "#301400",
+                        "on-tertiary-fixed-variant": "#5c4300",
+                        "on-primary-fixed-variant": "#920703",
+                        "primary-fixed": "#ffdad4",
+                        "surface-bright": "#f8f9fa",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e1e3e4",
+                        "tertiary-fixed": "#ffdfa0",
+                        "primary": "#610000",
+                        "on-secondary-fixed-variant": "#703800",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#261a00",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#3b2a00",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-primary": "#ffb4a8",
+                        "on-primary-fixed": "#410000",
+                        "on-primary-container": "#ff907f",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d9dadb",
+                        "secondary-fixed": "#ffdcc5",
+                        "tertiary-fixed-dim": "#fbbc00",
+                        "background": "#f8f9fa",
+                        "tertiary-container": "#573f00",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeeef",
+                        "surface": "#f8f9fa",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#e3beb8",
+                        "secondary-fixed-dim": "#ffb781",
+                        "secondary-container": "#fea054",
+                        "primary-container": "#8b0000",
+                        "secondary": "#934b00",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-low": "#f3f4f5",
+                        "on-tertiary-container": "#dfa600",
+                        "on-secondary-container": "#703800",
+                        "surface-tint": "#b52619",
+                        "on-surface-variant": "#5a403c",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#191c1d"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "xl": "32px",
+                        "md": "16px",
+                        "xs": "8px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "gutter": "16px",
+                        "margin-tablet": "24px",
+                        "sm": "12px"
+                    },
+                    "fontSize": {
+                        "display-lg": ["44px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface shadow-sm flex justify-between items-center px-margin-mobile h-16 w-full z-50 sticky top-0">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary" data-icon="store">store</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">TLU Café</h1>
+</div>
+<div class="hidden md:flex items-center gap-md">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary w-64 font-body-md text-body-md" placeholder="Search menu items..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<span class="font-label-lg text-label-lg text-on-surface-variant">Staff • 28°C in TLU</span>
+<button class="material-symbols-outlined p-2 rounded-full hover:bg-surface-container-high transition-colors" data-icon="account_circle">account_circle</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col md:flex-row h-[calc(100vh-64px)] overflow-hidden">
+<!-- Left: Product Navigation & Grid -->
+<div class="flex-1 overflow-y-auto p-md space-y-md custom-scrollbar">
+<!-- Category Chips -->
+<div class="flex gap-xs overflow-x-auto pb-xs scrollbar-hide">
+<button class="flex items-center gap-xs bg-primary text-on-primary px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap active:scale-95 transition-transform" onclick="filterCategory('All')">
+                    All Items
+                </button>
+<button class="flex items-center gap-xs bg-surface-container-high text-on-surface-variant px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap hover:bg-outline-variant transition-colors" onclick="filterCategory('Coffee')">
+<span class="material-symbols-outlined" data-icon="coffee">coffee</span> Coffee
+                </button>
+<button class="flex items-center gap-xs bg-surface-container-high text-on-surface-variant px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap hover:bg-outline-variant transition-colors" onclick="filterCategory('Tea')">
+<span class="material-symbols-outlined" data-icon="emoji_food_beverage">emoji_food_beverage</span> Tea
+                </button>
+<button class="flex items-center gap-xs bg-surface-container-high text-on-surface-variant px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap hover:bg-outline-variant transition-colors" onclick="filterCategory('Snacks')">
+<span class="material-symbols-outlined" data-icon="bakery_dining">bakery_dining</span> Snacks
+                </button>
+</div>
+<!-- Search Mobile -->
+<div class="md:hidden relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Quick search..." type="text"/>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter" id="product-grid">
+<!-- Coffee -->
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Vietnamese Black Coffee', 25000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional close-up shot of rich Vietnamese black coffee in a traditional glass, showing deep brown coffee liquid and a crown of oily crema. The lighting is warm and cinematic, emphasizing the steam rising in a modern café setting with a deep burgundy and neutral background. The aesthetic is clean, sophisticated, and focused on textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEebLilQbfSit0Ad3EQJ8csvU1UROTnNn4fermUihwL0EMuU_7la6uIUYWD29STVg1NcPciHhiQZ7DvaLRTgbWCxCzAfHIgxAEvB6GU_elfCIEAHiF5IGftgF6KIwA-2tg8sKelrEzNOaDYED6IHAW4ZYjMWKV6OIpe5Y8X6WpTiENaRvHifkYVkSFevCwSFcTk6i_fUksWF_yPlxuLssBIHk1bHnZ4a1Dc_PP0zOceXaC61NumaydM7LtYt96wvbIvJj57pmc3zo"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Vietnamese Black Coffee</h3>
+<p class="font-label-lg text-primary">25,000 VND</p>
+</div>
+</div>
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Salted Cream Coffee', 35000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A stylish latte with thick salted cream foam on top, served in a modern glass cup on a marble countertop. The scene features bright daylight from a large window, creating a fresh and high-end feel. The color palette involves creamy whites, rich coffee browns, and accents of deep burgundy from the café decor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4wHtBVq_cJwBnVU_93MGJw_u5yjWcg_Sn54JBbbwFZk-COmKCOA2AOSMI-536xe-G971i9qb3sxGm4WJ9vi8nZnCx6fbrkQ01o1iCXsaYTEnmrcU6jg2p_whmRsZJcdrIU5QYC7HhD318A9DiC2ipqZ6c0OroQey0yc5rzxvcUoC69aIPDv_6qVRAgs8R-m5P5cUQFyJqPuHm5Q3i3e3V1h0zYaOITlpI5I7E5Jaa3CQMA09pNXZKNjC1zauIHo87Q7P1G5LwUYY"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Salted Cream Coffee</h3>
+<p class="font-label-lg text-primary">35,000 VND</p>
+</div>
+</div>
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Matcha Latte', 40000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Vibrant green matcha latte in a minimalist white ceramic mug, with delicate latte art on the surface. The background is a soft-focus wooden table in a high-end corporate cafe. The mood is calm and focused, utilizing a bright lighting style with subtle shadows for depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUR_qGCQgB_Fgo24C8MHGONtGJmBOOKhSho9GPOdjVo_gJaKFCu4eEL5WU_YghlZDpgbfST4Xoznf_XQV3ASFWzAARdTqqFAzpBPmp5AbNCmRrtnX7vledPcIInjRPCRmjorYZFRnH-GdwTcbsTmhzdPQVJedV0XpE2cc_7iAGdrdqJNIqw6WnC7og2vwjniMbEee6ftMlB5bvsdFSL3ZlgGGL4I1fu7xeAWgHimLT44w446zbA87BG6djN81py70ryu9-SiQePL4"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Matcha Latte</h3>
+<p class="font-label-lg text-primary">40,000 VND</p>
+</div>
+</div>
+<!-- Snacks -->
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Butter Croissant', 28000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Flaky golden-brown butter croissants arranged neatly on a dark ceramic platter. The setting is a bakery display with warm spot lighting that highlights the crispy layers of the pastry. The style is professional and appetizing, using a high-contrast corporate modern look." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHlrHqVyym5lCje1ayjXylsvZfr1kMJ2ojgwykI6kQcyETNsgker3LqFJsM86u1Vg8WUKKec0IPk7ouji3XfXITCrpsMOCq2aKmo16W5sem_-0pbLjURhhxkJXBYD3sj6w9wQS5_UNq4Fn6V9fHCnUlsQtZPwf_LHjgpdlr9hz96JT7sf-Cis1J2t9i8lakZFnhSWfClt08OLFj0WZogaEX5ubDqVKA0cMCP43q1zW_KknndfBOzIkG_4aJgByuxbPJha1xz8BJk4"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Butter Croissant</h3>
+<p class="font-label-lg text-primary">28,000 VND</p>
+</div>
+</div>
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Chocolate Muffin', 32000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A rich, double-chocolate muffin with gooey chocolate chunks on top, placed on a designer plate. The lighting is focused and warm, creating high highlights on the chocolate bits. The overall aesthetic is indulgent and clean, following a modern corporate hospitality theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ7Vtly2AKOojuix7hcgwJbDZXV4KcQyvww2-637ER0BsQW4NiZGSjZAfwZmpyzQjrJg5k7cxoQMk_iRlPUdwA6zo2kZKsJixBqLhf1rwVM3SrEzb9IkPoqMaWffiY3S1Z8JS4EkBvZBETeIHN-syqeB49WUtewNlCQ1CnW9gjc7DtWwKbPlst9--BSw1_eR00y4nhyyn8al1_9i2OqxKn4mYhXLCfNkaYdimOe3AMpsaaIGv_Hsr84i7sdBPlIJ8JJUTIFycBwU0"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Chocolate Muffin</h3>
+<p class="font-label-lg text-primary">32,000 VND</p>
+</div>
+</div>
+<div class="product-card relative bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all cursor-pointer group" onclick="addToCart('Peach Tea', 30000, event)">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Iced peach tea in a tall glass, garnished with fresh peach slices and mint leaves. Condensation on the outside of the glass suggests a refreshing, cold beverage. The background is a clean, bright café surface with soft neutral tones and deep burgundy accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyWHLlFS_OZ8AZB9_H5E5rSgcCYSDarQxrPHahE3FnztziX3Pwgy1oZ9tq0iyZtJBThyMXqLD3wK1Zj-TDBvenS3-e6YCWjJXHbpn1vf0wv_hwE14r6risvLCSCk7l4cievkR9Z4ZlQYHjKUln3NeZOIFuS8yjsD-ojwRhFXJlxEdenJiimKSczRHe0KZHD9kGvI4BlMKxuNc5JhtVSp6vQ5SCDMJTIEjTAC3o0jeBIc5U3Pe15_0rgG4fJGvfWgtD-vJdbN7EzeE"/>
+</div>
+<div class="p-xs space-y-1">
+<h3 class="font-title-lg text-on-surface truncate">Peach Tea</h3>
+<p class="font-label-lg text-primary">30,000 VND</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Persistent Order Summary (POS Mode Sidebar) -->
+<aside class="hidden md:flex flex-col w-80 bg-surface-container-low shadow-md border-l border-outline-variant z-40 h-full">
+<div class="p-md flex justify-between items-center bg-surface border-b border-outline-variant">
+<h2 class="font-headline-md text-headline-md text-primary">Current Order</h2>
+<button class="text-error font-label-lg text-label-lg hover:underline" onclick="clearCart()">Clear All</button>
+</div>
+<div class="flex-1 overflow-y-auto p-md space-y-sm" id="cart-items">
+<!-- Empty State -->
+<div class="h-full flex flex-col items-center justify-center opacity-40 text-center space-y-xs" id="empty-cart-msg">
+<span class="material-symbols-outlined text-4xl" data-icon="shopping_basket">shopping_basket</span>
+<p class="font-body-md text-body-md">Cart is empty</p>
+</div>
+</div>
+<div class="p-md bg-surface space-y-md border-t border-outline-variant">
+<div class="space-y-xs">
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>Subtotal</span>
+<span id="subtotal">0 VND</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+<span>VAT (8%)</span>
+<span id="tax">0 VND</span>
+</div>
+<div class="flex justify-between font-title-lg text-title-lg text-primary font-bold">
+<span>Total</span>
+<span id="total">0 VND</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-xs">
+<button class="flex flex-col items-center justify-center gap-1 bg-secondary-container text-on-secondary-container py-3 rounded-xl font-label-lg text-label-lg hover:bg-secondary transition-all active:scale-95" onclick="openQRModal()">
+<span class="material-symbols-outlined" data-icon="qr_code">qr_code</span>
+                        QR Pay
+                    </button>
+<button class="flex flex-col items-center justify-center gap-1 bg-primary text-on-primary py-3 rounded-xl font-label-lg text-label-lg hover:opacity-90 transition-all active:scale-95" onclick="alert('Cash payment selected')">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                        Cash
+                    </button>
+</div>
+</div>
+</aside>
+</main>
+<!-- Mobile View Cart Sticky Button -->
+<div class="md:hidden fixed bottom-20 w-full px-margin-mobile z-40">
+<button class="w-full bg-primary text-on-primary h-14 rounded-full shadow-lg flex items-center justify-between px-lg font-title-lg text-title-lg" id="mobile-cart-btn" onclick="toggleMobileCart()">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span id="mobile-cart-count">0 items</span>
+</div>
+<span id="mobile-cart-total">0 VND</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 bg-surface px-xs pb-safe md:hidden border-t border-outline-variant">
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-label-md text-label-md">POS</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-md text-label-md">Menu</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md">Reports</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</div>
+</nav>
+<!-- QR Payment Modal -->
+<div class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-on-surface/50 backdrop-blur-sm p-margin-mobile" id="qr-modal">
+<div class="bg-surface w-full max-w-sm rounded-xl p-xl shadow-xl space-y-lg text-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Scan to Pay</h2>
+<div class="bg-surface-container-highest p-lg rounded-lg aspect-square flex items-center justify-center relative border-2 border-dashed border-outline">
+<div class="bg-white p-2 rounded">
+<!-- Placeholder QR Generator simulated with div -->
+<div class="w-48 h-48 bg-black relative" style="background: radial-gradient(circle, #000 70%, transparent 70%); background-size: 10px 10px;">
+<div class="absolute inset-4 bg-white flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-5xl" data-icon="store">store</span>
+</div>
+</div>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Pay <span class="font-bold text-primary" id="modal-total">0 VND</span> with VietQR / MoMo</p>
+<button class="w-full py-3 bg-surface-container-highest text-on-surface rounded-lg font-label-lg text-label-lg hover:bg-surface-variant transition-colors" onclick="closeQRModal()">Cancel Payment</button>
+</div>
+</div>
+<script>
+        let cart = [];
+        const formatter = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+            minimumFractionDigits: 0
+        });
+
+        function addToCart(name, price, event) {
+            // Ripple effect
+            const card = event.currentTarget;
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            card.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+
+            const existing = cart.find(i => i.name === name);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCartUI();
+        }
+
+        function removeFromCart(name) {
+            const index = cart.findIndex(i => i.name === name);
+            if (index > -1) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                } else {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                container.appendChild(emptyMsg);
+            } else {
+                emptyMsg.remove();
+                container.innerHTML = '';
+                cart.forEach(item => {
+                    const el = document.createElement('div');
+                    el.className = "flex justify-between items-center p-xs bg-surface border border-outline-variant rounded-lg animate-in fade-in slide-in-from-right-2 duration-200";
+                    el.innerHTML = `
+                        <div class="flex-1">
+                            <h4 class="font-body-md text-body-md font-bold truncate">${item.name}</h4>
+                            <p class="font-label-md text-label-md text-primary">${formatter.format(item.price)}</p>
+                        </div>
+                        <div class="flex items-center gap-xs">
+                            <button onclick="removeFromCart('${item.name}')" class="material-symbols-outlined text-on-surface-variant w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest flex items-center justify-center" data-icon="remove">remove</button>
+                            <span class="font-title-lg text-title-lg w-6 text-center">${item.quantity}</span>
+                            <button onclick="addToCart('${item.name}', ${item.price}, event)" class="material-symbols-outlined text-on-surface-variant w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-highest flex items-center justify-center" data-icon="add">add</button>
+                        </div>
+                    `;
+                    container.appendChild(el);
+                });
+            }
+
+            const sub = cart.reduce((acc, i) => acc + (i.price * i.quantity), 0);
+            const t = sub * 0.08;
+            const total = sub + t;
+
+            document.getElementById('subtotal').innerText = formatter.format(sub);
+            document.getElementById('tax').innerText = formatter.format(t);
+            document.getElementById('total').innerText = formatter.format(total);
+            document.getElementById('modal-total').innerText = formatter.format(total);
+
+            // Mobile Updates
+            const count = cart.reduce((acc, i) => acc + i.quantity, 0);
+            document.getElementById('mobile-cart-count').innerText = `${count} items`;
+            document.getElementById('mobile-cart-total').innerText = formatter.format(total);
+            
+            const mobileBtn = document.getElementById('mobile-cart-btn');
+            if(count > 0) {
+                mobileBtn.classList.remove('opacity-0', 'pointer-events-none');
+                mobileBtn.classList.add('animate-bounce');
+                setTimeout(() => mobileBtn.classList.remove('animate-bounce'), 1000);
+            }
+        }
+
+        function openQRModal() {
+            if (cart.length === 0) return alert('Cart is empty');
+            document.getElementById('qr-modal').classList.remove('hidden');
+        }
+
+        function closeQRModal() {
+            document.getElementById('qr-modal').classList.add('hidden');
+        }
+
+        function toggleMobileCart() {
+            alert('Opening Cart Summary View (Mobile)');
+            // In a real app, this would show a slide-up bottom sheet
+        }
+
+        function filterCategory(cat) {
+            console.log("Filtering by: " + cat);
+            // Visual feedback for chips
+            const buttons = document.querySelectorAll('button[onclick^="filterCategory"]');
+            buttons.forEach(btn => {
+                if (btn.innerText.includes(cat)) {
+                    btn.className = "flex items-center gap-xs bg-primary text-on-primary px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap active:scale-95 transition-transform";
+                } else {
+                    btn.className = "flex items-center gap-xs bg-surface-container-high text-on-surface-variant px-lg py-2 rounded-full font-label-lg text-label-lg whitespace-nowrap hover:bg-outline-variant transition-colors";
+                }
+            });
+        }
+    </script>
+</body></html>

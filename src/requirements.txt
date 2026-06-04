@@ -1,0 +1,5 @@
+pyodbc
+ttkbootstrap
+Pillow
+requests
+matplotlib

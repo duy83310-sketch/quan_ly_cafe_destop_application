@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TLU Café - Menu Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e1e3e4;
+            border-radius: 10px;
+        }
+        .switch-checkbox:checked + .switch-label {
+            background-color: #8b0000;
+        }
+        .switch-checkbox:checked + .switch-label::after {
+            transform: translateX(100%);
+            background-color: #ffffff;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#2e3132",
+                      "outline": "#8e706b",
+                      "on-secondary-fixed": "#301400",
+                      "on-tertiary-fixed-variant": "#5c4300",
+                      "on-primary-fixed-variant": "#920703",
+                      "primary-fixed": "#ffdad4",
+                      "surface-bright": "#f8f9fa",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-highest": "#e1e3e4",
+                      "tertiary-fixed": "#ffdfa0",
+                      "primary": "#610000",
+                      "on-secondary-fixed-variant": "#703800",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-fixed": "#261a00",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#3b2a00",
+                      "surface-variant": "#e1e3e4",
+                      "inverse-primary": "#ffb4a8",
+                      "on-primary-fixed": "#410000",
+                      "on-primary-container": "#ff907f",
+                      "primary-fixed-dim": "#ffb4a8",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d9dadb",
+                      "secondary-fixed": "#ffdcc5",
+                      "tertiary-fixed-dim": "#fbbc00",
+                      "background": "#f8f9fa",
+                      "tertiary-container": "#573f00",
+                      "error": "#ba1a1a",
+                      "surface-container": "#edeeef",
+                      "surface": "#f8f9fa",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-error": "#ffffff",
+                      "outline-variant": "#e3beb8",
+                      "secondary-fixed-dim": "#ffb781",
+                      "secondary-container": "#fea054",
+                      "primary-container": "#8b0000",
+                      "secondary": "#934b00",
+                      "surface-container-high": "#e7e8e9",
+                      "surface-container-low": "#f3f4f5",
+                      "on-tertiary-container": "#dfa600",
+                      "on-secondary-container": "#703800",
+                      "surface-tint": "#b52619",
+                      "on-surface-variant": "#5a403c",
+                      "on-secondary": "#ffffff",
+                      "on-background": "#191c1d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "xs": "8px",
+                      "lg": "24px",
+                      "base": "4px",
+                      "gutter": "16px",
+                      "margin-tablet": "24px",
+                      "sm": "12px"
+              },
+              "fontFamily": {
+                      "display-lg": ["Inter"],
+                      "label-lg": ["Inter"],
+                      "headline-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "title-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "display-lg": ["44px", {"lineHeight": "52px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="bg-surface shadow-sm flex justify-between items-center px-margin-mobile h-16 w-full z-50 fixed top-0">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="store">store</span>
+<h1 class="font-bold text-headline-lg-mobile text-primary">TLU Café</h1>
+</div>
+<div class="text-on-surface-variant font-label-md text-label-md">
+            Admin • 24°C
+        </div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-24 px-margin-mobile md:px-margin-tablet max-w-7xl mx-auto min-h-screen">
+<!-- Page Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-lg gap-md">
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:text-headline-lg font-bold text-on-surface">Manage Menu</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Update availability, prices, and product details.</p>
+</div>
+<button class="bg-primary hover:bg-primary-container text-on-primary px-lg py-sm rounded-lg flex items-center justify-center gap-xs font-label-lg text-label-lg transition-colors duration-200 shadow-md">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                Add New Product
+            </button>
+</div>
+<!-- Filter and Search Bar -->
+<div class="bg-surface-container-low p-md rounded-xl mb-lg shadow-sm flex flex-col md:flex-row gap-md items-center border border-outline-variant/30">
+<div class="relative w-full md:max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg py-2 pl-10 pr-4 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Search products, category, or SKU..." type="text"/>
+</div>
+<div class="flex gap-xs overflow-x-auto w-full md:w-auto pb-2 md:pb-0 custom-scrollbar">
+<button class="bg-secondary-container text-on-secondary-container px-md py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap">All Items</button>
+<button class="bg-surface-container-high text-on-surface-variant hover:bg-surface-variant px-md py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Coffee</button>
+<button class="bg-surface-container-high text-on-surface-variant hover:bg-surface-variant px-md py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Tea</button>
+<button class="bg-surface-container-high text-on-surface-variant hover:bg-surface-variant px-md py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Pastries</button>
+<button class="bg-surface-container-high text-on-surface-variant hover:bg-surface-variant px-md py-1.5 rounded-full font-label-md text-label-md whitespace-nowrap transition-colors">Juice</button>
+</div>
+</div>
+<!-- Product Table / Professional List View -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high border-b border-outline-variant">
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider w-12"></th>
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Product</th>
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Category</th>
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Price</th>
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="px-md py-4 font-label-lg text-label-lg text-on-surface-variant uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Product Item 1 (Active) -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150">
+<td class="px-md py-4">
+<img alt="Espresso" class="w-12 h-12 rounded-lg object-cover shadow-sm" data-alt="A macro photograph of a perfect espresso shot with a rich, golden crema in a small white ceramic cup. The background is a clean, modern cafe environment with soft bokeh and natural light. Professional food photography style with warm, inviting tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpx6vo2jf2QfLaAQ0EyP10sEsDom3fxp8TqUKOBKv73ImyY45pek2WjQfUjNngN9NIYX4ThknrjcZoJRvoNgZLWqXOAJUhSHWb2ERejtfOJBSMUY5IrCtA4B4sxUGOP34M3U1beujs6Sr8g530pha9BLymA1lsfe6KhVR8s11hMLM76Ob_n_6ccVoXL9i-c_QHMaqF8kFlhV-6ghe4t8S4GYE10HKNT1GEyPWYt8Vl_bsHdewITuRKg2fYXK78bh4Mbwll-U1ATKA"/>
+</td>
+<td class="px-md py-4">
+<div class="font-title-lg text-title-lg text-on-surface">Premium Espresso</div>
+<div class="font-label-md text-label-md text-on-surface-variant">SKU: ESP-001</div>
+</td>
+<td class="px-md py-4 font-body-md text-body-md text-on-surface">Coffee</td>
+<td class="px-md py-4 font-body-md text-body-md font-bold text-on-surface">$3.50</td>
+<td class="px-md py-4">
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input checked="" class="switch-checkbox absolute block w-6 h-6 rounded-full bg-surface-container-highest border-4 border-transparent appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="toggle-1" name="toggle" type="checkbox"/>
+<label class="switch-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-200 ease-in-out" for="toggle-1"></label>
+</div>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-2 hover:bg-secondary-container/20 rounded-full text-secondary transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full text-error transition-colors" title="Delete">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Item 2 (Active) -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150">
+<td class="px-md py-4">
+<img alt="Matcha Latte" class="w-12 h-12 rounded-lg object-cover shadow-sm" data-alt="A vibrant green matcha latte with delicate leaf-shaped latte art in a textured gray ceramic mug. Beside it lies a small sprig of dried lavender on a light marble surface. The mood is calm and artisanal, featuring soft directional morning sunlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaxbsSG1PdGfSnUvMjIKJSI11CkxmSDXmF1LaQAbM_HlZ2vBxXmhebxfxTLqEJo61XcQXeWGBvIeIvLMBJK2BxyqK2IHhSbqRQwpf8ec9amn739ErlgBmi_LyIcIRBF4Cx4DruDW716r21g1Fz2E-mTYzTAQEhSTrTp6w3dJjWE7AugjNsRoEVVTJT5UOM3l5aeMG34FAyXnshD1IhNG41xyZ6XfXw854SOCBwel92fRMA7UP6qMFwmVBa6jxf11AOpHN2Xp4IH64"/>
+</td>
+<td class="px-md py-4">
+<div class="font-title-lg text-title-lg text-on-surface">Ceremonial Matcha</div>
+<div class="font-label-md text-label-md text-on-surface-variant">SKU: TEA-042</div>
+</td>
+<td class="px-md py-4 font-body-md text-body-md text-on-surface">Tea</td>
+<td class="px-md py-4 font-body-md text-body-md font-bold text-on-surface">$5.25</td>
+<td class="px-md py-4">
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input checked="" class="switch-checkbox absolute block w-6 h-6 rounded-full bg-surface-container-highest border-4 border-transparent appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="toggle-2" name="toggle" type="checkbox"/>
+<label class="switch-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-200 ease-in-out" for="toggle-2"></label>
+</div>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-2 hover:bg-secondary-container/20 rounded-full text-secondary transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full text-error transition-colors" title="Delete">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Item 3 (Disabled/Soft Delete Pattern) -->
+<tr class="bg-surface-container-low/50 opacity-60 grayscale transition-all duration-300">
+<td class="px-md py-4">
+<img alt="Croissant" class="w-12 h-12 rounded-lg object-cover" data-alt="Flaky, golden-brown artisanal croissants stacked on a minimalist black metal wire tray. The setting is a clean, bright industrial-style bakery with high-key lighting. The overall aesthetic is professional, minimalist, and focuses on the texture of the pastry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkELtpoUG4B24mG5PN2Wt2MoRaSOJfoTFCNcKAA4LG4vp1i97XfHx_jAPf1VGOZVobr4KE82430nUz_xOLpi5Y4XPHxQM-Fy6o7B5GZ1TW1jz8M9XQ-4ieVs59APQRrtzdTfcVOdqL_nh3_hlFy0wbx_R8TkoWZeQ69uUjoBlNWy-7KVm3RxNpILfAmcymSbGwoq5eYjShUgAm-8wsGvbaI9LHs9YRsoWvzrJRY6iNsRFMR0ja54z1poUZU1IzXJJHItDXap2asgc"/>
+</td>
+<td class="px-md py-4">
+<div class="font-title-lg text-title-lg text-on-surface">Butter Croissant</div>
+<div class="font-label-md text-label-md text-on-surface-variant line-through">Out of Season</div>
+</td>
+<td class="px-md py-4 font-body-md text-body-md text-on-surface">Pastries</td>
+<td class="px-md py-4 font-body-md text-body-md font-bold text-on-surface">$3.25</td>
+<td class="px-md py-4">
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input class="switch-checkbox absolute block w-6 h-6 rounded-full bg-surface-container-highest border-4 border-transparent appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="toggle-3" name="toggle" type="checkbox"/>
+<label class="switch-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-200 ease-in-out" for="toggle-3"></label>
+</div>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-2 hover:bg-secondary-container/20 rounded-full text-secondary transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full text-error transition-colors" title="Delete">
+<span class="material-symbols-outlined" data-icon="restore">restore</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Product Item 4 (Active) -->
+<tr class="hover:bg-surface-container-low transition-colors duration-150">
+<td class="px-md py-4">
+<img alt="Orange Juice" class="w-12 h-12 rounded-lg object-cover shadow-sm" data-alt="A tall glass of freshly squeezed orange juice with ice cubes and a thin slice of orange on the rim. The lighting is bright and summery, casting sharp, refreshing shadows on a light wood tabletop. The color palette is vibrant and dominated by bright citrus oranges." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGXFQVRGnBqz16dt1RX65JxEO5m1fozD6cL0QV6ZoApWglxQTZ1On7MYr8WGqGLGjN3xxl3Kh08F98ORuSR806JIDwE0tdPDqQuXyqFJoxXX1QLXciGjl6ctg9RiQIrDxL5fCq06BGD8_uWaAeGOqr3zelCeopp6NylKq9oExE7x-anAS1deC7pCO_rVRq8A1c6XSF8GPIfYifWuqb5t_-MdU9N9qJ3mc8_sOkV4ghC8fTSVbwv5qK3c_2MLt87Lzg7hsNy_-rlFE"/>
+</td>
+<td class="px-md py-4">
+<div class="font-title-lg text-title-lg text-on-surface">Fresh Squeezed OJ</div>
+<div class="font-label-md text-label-md text-on-surface-variant">SKU: JUI-088</div>
+</td>
+<td class="px-md py-4 font-body-md text-body-md text-on-surface">Juice</td>
+<td class="px-md py-4 font-body-md text-body-md font-bold text-on-surface">$4.50</td>
+<td class="px-md py-4">
+<div class="relative inline-block w-12 h-6 align-middle select-none">
+<input checked="" class="switch-checkbox absolute block w-6 h-6 rounded-full bg-surface-container-highest border-4 border-transparent appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="toggle-4" name="toggle" type="checkbox"/>
+<label class="switch-label block overflow-hidden h-6 rounded-full bg-surface-container-highest cursor-pointer transition-colors duration-200 ease-in-out" for="toggle-4"></label>
+</div>
+</td>
+<td class="px-md py-4 text-right">
+<div class="flex justify-end gap-sm">
+<button class="p-2 hover:bg-secondary-container/20 rounded-full text-secondary transition-colors" title="Edit">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 rounded-full text-error transition-colors" title="Delete">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="bg-surface-container-low px-md py-4 flex items-center justify-between border-t border-outline-variant">
+<span class="font-label-md text-label-md text-on-surface-variant">Showing 4 of 42 products</span>
+<div class="flex gap-xs">
+<button class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center bg-primary text-on-primary rounded-lg font-label-md text-label-md">1</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container-highest text-on-surface-variant rounded-lg font-label-md text-label-md transition-colors">2</button>
+<button class="w-8 h-8 flex items-center justify-center hover:bg-surface-container-highest text-on-surface-variant rounded-lg font-label-md text-label-md transition-colors">3</button>
+<button class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Mobile) -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 bg-surface border-t border-outline-variant md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-transform duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+<span class="font-label-md text-label-md mt-1">POS</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 transition-transform duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-md text-label-md mt-1">Menu</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-transform duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md mt-1">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-container-highest transition-transform duration-150 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">Profile</span>
+</a>
+</nav>
+<!-- Sidebar (Desktop Navigation Mockup) -->
+<div class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-20 flex-col items-center bg-surface border-r border-outline-variant z-40 py-md gap-lg">
+<a class="p-3 text-on-surface-variant hover:text-primary transition-colors rounded-xl hover:bg-surface-container-high" href="#" title="Point of Sale">
+<span class="material-symbols-outlined" data-icon="point_of_sale">point_of_sale</span>
+</a>
+<a class="p-3 bg-primary-container text-on-primary-container rounded-xl shadow-sm" href="#" title="Menu Management">
+<span class="material-symbols-outlined fill-icon" data-icon="restaurant_menu">restaurant_menu</span>
+</a>
+<a class="p-3 text-on-surface-variant hover:text-primary transition-colors rounded-xl hover:bg-surface-container-high" href="#" title="Sales Analytics">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+</a>
+<a class="p-3 text-on-surface-variant hover:text-primary transition-colors rounded-xl hover:bg-surface-container-high" href="#" title="Account Settings">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</a>
+</div>
+<!-- Quick Actions Modal (Hidden by default) -->
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-md" id="add-modal">
+<div class="bg-surface rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-300">
+<div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+<h3 class="font-headline-md text-headline-md text-on-surface">Add New Product</h3>
+<button class="text-on-surface-variant hover:text-on-surface" onclick="toggleModal()">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<div class="p-lg space-y-md">
+<div class="grid grid-cols-2 gap-md">
+<div class="col-span-2">
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-xs">Product Name</label>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg p-md focus:ring-2 focus:ring-primary/20 outline-none" type="text"/>
+</div>
+<div>
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-xs">Category</label>
+<select class="w-full bg-surface-container border border-outline-variant rounded-lg p-md outline-none">
+<option>Coffee</option>
+<option>Tea</option>
+<option>Pastries</option>
+<option>Juice</option>
+</select>
+</div>
+<div>
+<label class="block font-label-lg text-label-lg text-on-surface-variant mb-xs">Price ($)</label>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg p-md focus:ring-2 focus:ring-primary/20 outline-none" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+<div class="p-lg bg-surface-container-low flex justify-end gap-md">
+<button class="px-lg py-sm font-label-lg text-label-lg text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors" onclick="toggleModal()">Cancel</button>
+<button class="px-lg py-sm font-label-lg text-label-lg bg-primary text-on-primary rounded-lg shadow-md hover:bg-primary-container transition-colors">Save Product</button>
+</div>
+</div>
+</div>
+<script>
+        function toggleModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Attach click event to the "Add New Product" button
+        document.querySelector('button.bg-primary').addEventListener('click', toggleModal);
+
+        // Simple visual feedback for toggles
+        document.querySelectorAll('.switch-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const row = this.closest('tr');
+                if (!this.checked) {
+                    row.classList.add('opacity-60', 'grayscale', 'bg-surface-container-low/50');
+                } else {
+                    row.classList.remove('opacity-60', 'grayscale', 'bg-surface-container-low/50');
+                }
+            });
+        });
+    </script>
+</body></html>
