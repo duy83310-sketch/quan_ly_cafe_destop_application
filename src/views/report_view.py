@@ -22,21 +22,22 @@ class DashboardView(ttk.Frame):
         kpi_frame = ttk.Frame(self)
         kpi_frame.pack(fill=X, pady=(0, 20))
         
-        self.rev_card = self.create_kpi_card(kpi_frame, "TOTAL REVENUE (NĂM NAY)", "0 ₫")
+        self.rev_card = self.create_kpi_card(kpi_frame, "TOTAL REVENUE (NĂM NAY)", "0 ₫", "primary")
         self.rev_card.pack(side=LEFT, fill=BOTH, expand=YES, padx=(0, 10))
         
-        self.ord_card = self.create_kpi_card(kpi_frame, "TOTAL ORDERS", "0")
+        self.ord_card = self.create_kpi_card(kpi_frame, "TOTAL ORDERS", "0", "danger")
         self.ord_card.pack(side=LEFT, fill=BOTH, expand=YES, padx=(10, 10))
         
-        charts_frame = ttk.Frame(self)
-        charts_frame.pack(fill=BOTH, expand=YES, pady=(0, 20))
+        charts_container = ttk.Frame(self, padding=10, borderwidth=1, relief="solid", bootstyle="default")
+        charts_container.pack(fill=BOTH, expand=YES, pady=(0, 20))
         
-        self.fig = Figure(figsize=(10, 3.5), dpi=100) # Làm nhỏ biểu đồ lại cho gọn
+        self.fig = Figure(figsize=(10, 4), dpi=100)
+        self.fig.patch.set_facecolor('#f8f9fa')
         self.ax_bar = self.fig.add_subplot(121) 
         self.ax_pie = self.fig.add_subplot(122) 
-        self.fig.tight_layout() # Bỏ pad=3.0 để biểu đồ tự động fit vừa khung
+        self.fig.tight_layout()
         
-        self.canvas = FigureCanvasTkAgg(self.fig, master=charts_frame)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=charts_container)
         self.canvas.get_tk_widget().pack(fill=BOTH, expand=YES)
         
         ttk.Label(self, text="Recent Transactions", font=("Helvetica", 16, "bold")).pack(anchor=W, pady=(10, 5))
@@ -80,21 +81,36 @@ class DashboardView(ttk.Frame):
                 messagebox.showinfo("Chi tiết đơn hàng", f"Không có thông tin chi tiết cho {order_str}")
                 return
                 
+            creator_data = self.db.fetch_data("""
+                SELECT o.user_id, u.username
+                FROM Orders o
+                LEFT JOIN Users u ON o.user_id = u.id
+                WHERE o.id = ?
+            """, (order_id,))
+            
+            if creator_data and creator_data[0]['username']:
+                u_id = creator_data[0]['user_id']
+                u_name = creator_data[0]['username']
+                creator_str = f"{u_name} (ID: {u_id})"
+            else:
+                creator_str = "N/A"
+            
             msg = f"CHI TIẾT MÓN ĂN - {order_str}\n"
             msg += "-" * 40 + "\n"
             for d in details:
                 msg += f"• {d['item_name']} (x{d['quantity']}): {int(d['price'] * d['quantity']):,} đ\n"
             msg += "-" * 40 + "\n"
-            msg += f"TỔNG CỘNG: {item['values'][2]}"
+            msg += f"TỔNG CỘNG: {item['values'][2]}\n"
+            msg += f"NGƯỜI TẠO: {creator_str}"
             
             messagebox.showinfo("Chi tiết đơn hàng", msg)
         except Exception as e:
             print("Lỗi xem chi tiết:", e)
 
-    def create_kpi_card(self, parent, title, value):
-        frame = ttk.Frame(parent, bootstyle="secondary", padding=15)
-        ttk.Label(frame, text=title, font=("Helvetica", 10, "bold"), bootstyle="inverse-secondary").pack(anchor=W)
-        val_lbl = ttk.Label(frame, text=value, font=("Helvetica", 24, "bold"), bootstyle="inverse-secondary")
+    def create_kpi_card(self, parent, title, value, bootstyle="primary"):
+        frame = ttk.Frame(parent, bootstyle=bootstyle, padding=20)
+        ttk.Label(frame, text=title, font=("Helvetica", 12, "bold"), bootstyle=f"inverse-{bootstyle}").pack(anchor=W)
+        val_lbl = ttk.Label(frame, text=value, font=("Helvetica", 32, "bold"), bootstyle=f"inverse-{bootstyle}")
         val_lbl.pack(anchor=W, pady=(5, 0))
         frame.val_lbl = val_lbl
         return frame
@@ -127,9 +143,10 @@ class DashboardView(ttk.Frame):
                 revenues[m['month'] - 1] = m['revenue']
             
             self.ax_bar.clear()
+            self.ax_bar.set_facecolor('#f8f9fa')
             # Sử dụng màu xanh dương đậm của TLU
             self.ax_bar.bar(months, revenues, color='#00205B') 
-            self.ax_bar.set_title(f"Doanh thu theo tháng ({current_year})", fontsize=11)
+            self.ax_bar.set_title(f"Doanh thu theo tháng ({current_year})", fontsize=12, pad=10, fontweight="bold")
             self.ax_bar.tick_params(axis='x', rotation=45, labelsize=9)
             self.ax_bar.tick_params(axis='y', labelsize=9)
             
@@ -149,12 +166,13 @@ class DashboardView(ttk.Frame):
             item_qtys = [item['total_qty'] for item in top_data]
             
             self.ax_pie.clear()
+            self.ax_pie.set_facecolor('#f8f9fa')
             if item_qtys:
                 # Sử dụng dải màu đỏ/xanh chuẩn logo TLU
                 tlu_colors = ['#00205B', '#D11124', '#33508A', '#E04A55', '#6680B3']
                 self.ax_pie.pie(item_qtys, labels=item_names, autopct='%1.1f%%', startangle=90, 
-                                colors=tlu_colors[:len(item_qtys)], textprops={'fontsize': 9})
-                self.ax_pie.set_title("Món Bán Chạy Nhất", fontsize=11)
+                                colors=tlu_colors[:len(item_qtys)], textprops={'fontsize': 10})
+                self.ax_pie.set_title("Món Bán Chạy Nhất", fontsize=12, pad=10, fontweight="bold")
             else:
                 self.ax_pie.text(0.5, 0.5, "Chưa có dữ liệu món", ha='center')
                 

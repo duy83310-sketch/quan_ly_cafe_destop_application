@@ -238,7 +238,8 @@ class POSView(ttk.Frame):
             conn = self.db.get_connection()
             cursor = conn.cursor()
             
-            cursor.execute("INSERT INTO Orders (total_amount, status) OUTPUT INSERTED.id VALUES (?, N'Đã hoàn thành')", (total,))
+            user_id = self.user_info.get('id')
+            cursor.execute("INSERT INTO Orders (user_id, total_amount, status) OUTPUT INSERTED.id VALUES (?, ?, N'Đã hoàn thành')", (user_id, total,))
             order_id = cursor.fetchone()[0]
             
             for item in self.cart:
@@ -263,7 +264,12 @@ class POSView(ttk.Frame):
         from datetime import datetime
         import os
         
-        filename = f"hoadon_ORD_{order_id}.txt"
+        # Tạo thư mục HoaDon nếu chưa có
+        invoice_dir = "HoaDon"
+        if not os.path.exists(invoice_dir):
+            os.makedirs(invoice_dir)
+            
+        filename = os.path.join(invoice_dir, f"hoadon_ORD_{order_id}.txt")
         with open(filename, "w", encoding="utf-8") as f:
             f.write("="*45 + "\n")
             f.write("                TLU CAFÉ\n")

@@ -5,6 +5,15 @@ from views.main_view import MainView
 class App(ttk.Window):
     def __init__(self):
         super().__init__(title="TLU Café", themename="litera")
+        
+        # Cập nhật màu chủ đạo theo TLU Logo
+        theme = self.style._theme_definitions.get('litera')
+        theme.colors.primary = '#00205B'
+        theme.colors.dark = '#00205B'
+        theme.colors.danger = '#D11124'
+        theme.colors.info = '#33508A'
+        self.style.theme_use('litera')
+        
         self.geometry("1200x800")
         self.state('zoomed')
         
