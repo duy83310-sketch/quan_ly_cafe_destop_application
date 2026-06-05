@@ -2,19 +2,17 @@ import sys
 import codecs
 from database import Database
 
-# Fix print encoding
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 def seed_menu():
     db = Database()
     
-    # Đảm bảo danh mục tồn tại
     categories = ['Coffee', 'Tea', 'Juice/Smoothie', 'Snacks']
     for cat in categories:
         try:
             db.execute_query("INSERT INTO Categories (name) VALUES (?)", (cat,))
         except Exception:
-            pass # Bỏ qua nếu đã tồn tại
+            pass
 
     items = [
         ('Cà phê sữa đá', 'Coffee', 29000, 'Đang bán', 'https://images.unsplash.com/photo-1517701550927-30cfcb64ac45?w=500&q=80'),
@@ -41,7 +39,6 @@ def seed_menu():
     count = 0
     for item in items:
         try:
-            # Kiểm tra xem món này đã có chưa để tránh trùng lặp
             existing = db.fetch_data("SELECT id FROM Menu WHERE item_name=?", (item[0],))
             if not existing:
                 db.execute_query(

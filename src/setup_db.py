@@ -2,7 +2,6 @@ import pyodbc
 import sys
 import codecs
 
-# Fix print encoding
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 def setup_database():

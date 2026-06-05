@@ -103,7 +103,6 @@ class POSView(ttk.Frame):
             img_lbl = ttk.Label(card, text="[Loading Image...]", width=15, anchor=CENTER)
             img_lbl.pack(pady=5)
             
-            # Callback để cập nhật hình ảnh sau khi tải xong
             def update_img(photo, lbl=img_lbl):
                 if lbl.winfo_exists():
                     lbl.config(image=photo, text="")
@@ -116,7 +115,6 @@ class POSView(ttk.Frame):
             ttk.Label(card, text=p['item_name'], font=("Helvetica", 12, "bold")).pack()
             ttk.Label(card, text=f"{int(p['price']):,} ₫", font=("Helvetica", 10), bootstyle="danger").pack()
             
-            # Thêm phần chọn số lượng
             qty_frame = ttk.Frame(card)
             qty_frame.pack(pady=5)
             ttk.Label(qty_frame, text="SL:").pack(side=LEFT, padx=(0, 5))
@@ -133,7 +131,6 @@ class POSView(ttk.Frame):
     def get_product_image(self, path, callback=None):
         if not path: return None
         
-        # Nếu là file trên máy tính, dùng kèm thời gian sửa đổi file làm cache_key để phát hiện ảnh bị ghi đè
         cache_key = path
         if not path.startswith('http') and os.path.exists(path):
             try:
@@ -158,7 +155,6 @@ class POSView(ttk.Frame):
                             self.after(0, lambda: callback(photo))
                     except Exception:
                         pass
-                # Chạy tải ảnh ngầm bằng Thread để không làm đơ giao diện
                 threading.Thread(target=download_task, daemon=True).start()
                 return None
             elif os.path.exists(path):
@@ -213,7 +209,7 @@ class POSView(ttk.Frame):
             initialvalue=item['qty'], 
             minvalue=0, 
             maxvalue=999,
-            parent=self # Rất quan trọng: giúp popup không bị ẩn sau cửa sổ full màn hình
+            parent=self
         )
         
         if new_qty is not None:
@@ -250,10 +246,8 @@ class POSView(ttk.Frame):
             
             messagebox.showinfo("Thành công", f"Đã thanh toán thành công!\nMã đơn hàng: {order_id}")
             
-            # In hóa đơn
             self.print_invoice(order_id, total, self.cart.copy())
             
-            # Hiển thị mã QR thanh toán (VietQR API)
             self.show_qr_payment(order_id, total)
             
             self.clear_cart()
@@ -264,7 +258,6 @@ class POSView(ttk.Frame):
         from datetime import datetime
         import os
         
-        # Tạo thư mục HoaDon nếu chưa có
         invoice_dir = "HoaDon"
         if not os.path.exists(invoice_dir):
             os.makedirs(invoice_dir)
@@ -305,8 +298,8 @@ class POSView(ttk.Frame):
         qr_window = ttk.Toplevel(self)
         qr_window.title("Thanh toán mã QR - VietQR")
         qr_window.geometry("400x550")
-        qr_window.transient(self.winfo_toplevel()) # Giữ cửa sổ QR luôn ở trên cửa sổ chính
-        qr_window.grab_set() # Khóa các tương tác ở cửa sổ dưới cho đến khi tắt popup
+        qr_window.transient(self.winfo_toplevel())
+        qr_window.grab_set()
         
         ttk.Label(qr_window, text="VUI LÒNG QUÉT MÃ ĐỂ THANH TOÁN", font=("Helvetica", 14, "bold")).pack(pady=(20, 10))
         ttk.Label(qr_window, text=f"Số tiền: {int(total):,} đ", font=("Helvetica", 18, "bold"), bootstyle="danger").pack(pady=5)
@@ -316,13 +309,11 @@ class POSView(ttk.Frame):
         
         def fetch_qr():
             try:
-                # Cấu hình tài khoản ngân hàng của quán
                 bank_id = "techcombank"
-                account_no = "19071713001010" # Số tài khoản Techcombank của bạn
+                account_no = "19071713001010"
                 account_name = urllib.parse.quote("QUAN CAFE TLU")
                 add_info = urllib.parse.quote(f"Thanh toan don {order_id}")
                 
-                # Gọi API VietQR
                 url = f"https://img.vietqr.io/image/{bank_id}-{account_no}-compact2.png?amount={int(total)}&addInfo={add_info}&accountName={account_name}"
                 
                 req = urllib.request.urlopen(url)
@@ -337,7 +328,6 @@ class POSView(ttk.Frame):
                 if img_lbl.winfo_exists():
                     img_lbl.config(text=f"Lỗi tải mã QR. Vui lòng kiểm tra mạng!\n{e}", bootstyle="danger")
                     
-        # Chạy tải ảnh bằng Thread để không bị treo UI (Loading effect)
         threading.Thread(target=fetch_qr, daemon=True).start()
         
         ttk.Button(qr_window, text="Xác nhận khách đã thanh toán", bootstyle="success", command=qr_window.destroy).pack(pady=20)

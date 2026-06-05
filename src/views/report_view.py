@@ -65,7 +65,7 @@ class DashboardView(ttk.Frame):
         if not selected: return
         
         item = self.tree.item(selected[0])
-        order_str = item['values'][0] # VD: "#ORD-3"
+        order_str = item['values'][0]
         order_id = int(str(order_str).replace("#ORD-", ""))
         
         try:
@@ -119,7 +119,6 @@ class DashboardView(ttk.Frame):
         try:
             current_year = datetime.now().year
             
-            # 1. KPIs
             orders = self.db.fetch_data("SELECT id, total_amount, status, order_date FROM Orders WHERE status=N'Đã hoàn thành'")
             total_rev_year = sum(o['total_amount'] for o in orders if o['order_date'].year == current_year)
             total_count = len(orders)
@@ -127,7 +126,6 @@ class DashboardView(ttk.Frame):
             self.rev_card.val_lbl.config(text=f"{int(total_rev_year):,} ₫")
             self.ord_card.val_lbl.config(text=f"{total_count}")
             
-            # 2. Bar Chart (Monthly Revenue)
             monthly_query = f"""
             SELECT MONTH(order_date) as month, SUM(total_amount) as revenue 
             FROM Orders 
@@ -136,7 +134,6 @@ class DashboardView(ttk.Frame):
             """
             monthly_data = self.db.fetch_data(monthly_query)
             
-            # Khởi tạo 12 tháng với doanh thu 0
             months = [f"T{i}" for i in range(1, 13)]
             revenues = [0] * 12
             for m in monthly_data:
@@ -144,13 +141,11 @@ class DashboardView(ttk.Frame):
             
             self.ax_bar.clear()
             self.ax_bar.set_facecolor('#f8f9fa')
-            # Sử dụng màu xanh dương đậm của TLU
             self.ax_bar.bar(months, revenues, color='#00205B') 
             self.ax_bar.set_title(f"Doanh thu theo tháng ({current_year})", fontsize=12, pad=10, fontweight="bold")
             self.ax_bar.tick_params(axis='x', rotation=45, labelsize=9)
             self.ax_bar.tick_params(axis='y', labelsize=9)
             
-            # 3. Pie Chart (Best Selling)
             top_query = """
             SELECT TOP 5 m.item_name, SUM(od.quantity) as total_qty
             FROM OrderDetails od
@@ -168,7 +163,6 @@ class DashboardView(ttk.Frame):
             self.ax_pie.clear()
             self.ax_pie.set_facecolor('#f8f9fa')
             if item_qtys:
-                # Sử dụng dải màu đỏ/xanh chuẩn logo TLU
                 tlu_colors = ['#00205B', '#D11124', '#33508A', '#E04A55', '#6680B3']
                 self.ax_pie.pie(item_qtys, labels=item_names, autopct='%1.1f%%', startangle=90, 
                                 colors=tlu_colors[:len(item_qtys)], textprops={'fontsize': 10})
@@ -179,7 +173,6 @@ class DashboardView(ttk.Frame):
             self.fig.tight_layout()
             self.canvas.draw()
             
-            # 4. Recent Transactions
             for row in self.tree.get_children():
                 self.tree.delete(row)
                 

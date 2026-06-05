@@ -79,7 +79,6 @@ class MenuView(ttk.Frame):
         for item in items:
             self.tree.insert("", "end", values=(item['id'], item['item_name'], item['category'], f"{int(item['price']):,}", item['status']))
             
-        # Cập nhật danh sách combobox danh mục
         try:
             cats = self.db.fetch_data("SELECT name FROM Categories")
             self.cat_cb['values'] = [c['name'] for c in cats]
@@ -155,7 +154,6 @@ class MenuView(ttk.Frame):
                 self.clear_form()
                 self.load_data()
             except Exception as e:
-                # Ràng buộc khóa ngoại: Món đã có trong hóa đơn, không thể DELETE
                 self.db.execute_query("UPDATE Menu SET status=N'Ngừng bán' WHERE id=?", (item_id,))
                 messagebox.showinfo("Thông báo", "Món này đã từng được order nên không thể xóa hoàn toàn khỏi hệ thống để giữ lịch sử doanh thu.\nHệ thống đã chuyển trạng thái sang 'Ngừng bán' và ẩn đi.")
                 self.clear_form()

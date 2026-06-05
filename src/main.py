@@ -6,7 +6,6 @@ class App(ttk.Window):
     def __init__(self):
         super().__init__(title="TLU Café", themename="litera")
         
-        # Cập nhật màu chủ đạo theo TLU Logo
         theme = self.style._theme_definitions.get('litera')
         theme.colors.primary = '#00205B'
         theme.colors.dark = '#00205B'
@@ -17,7 +16,6 @@ class App(ttk.Window):
         self.geometry("1200x800")
         self.state('zoomed')
         
-        # Thiết lập icon ứng dụng (nếu có file logo.png)
         try:
             from PIL import Image, ImageTk
             import os

@@ -13,14 +13,12 @@ class LoginView(ttk.Frame):
         self.build_ui()
         
     def build_ui(self):
-        # Tạo hiệu ứng nền (background frame)
         bg_frame = ttk.Frame(self, bootstyle="light")
         bg_frame.pack(fill=BOTH, expand=YES)
         
         container = ttk.Frame(bg_frame, padding=40, borderwidth=1, relief="solid", bootstyle="default")
         container.place(relx=0.5, rely=0.5, anchor=CENTER)
         
-        # Hiển thị logo nếu có
         try:
             from PIL import Image, ImageTk
             import os
@@ -50,7 +48,6 @@ class LoginView(ttk.Frame):
         
         login_btn = ttk.Button(container, text="ĐĂNG NHẬP", bootstyle="primary", command=self.handle_login, width=35)
         
-        # Hover cho nút Đăng Nhập
         def on_enter_login(e):
             login_btn.configure(bootstyle="danger")
         def on_leave_login(e):

@@ -17,16 +17,13 @@ class MainView(ttk.Frame):
         self.build_ui()
         
     def build_ui(self):
-        # Sidebar Frame
         self.sidebar = ttk.Frame(self, bootstyle="dark", width=250)
         self.sidebar.pack(side=LEFT, fill=Y)
         self.sidebar.pack_propagate(False)
         
-        # Logo/Title
         title_frame = ttk.Frame(self.sidebar, bootstyle="dark")
         title_frame.pack(fill=X, pady=20, padx=10)
         
-        # Hiển thị ảnh logo nếu có
         try:
             from PIL import Image, ImageTk
             import os
@@ -42,19 +39,16 @@ class MainView(ttk.Frame):
             ttk.Label(title_frame, text="☕ TLU Café", font=("Helvetica", 20, "bold"), bootstyle="inverse-dark").pack(anchor=W)
         ttk.Label(title_frame, text="MANAGEMENT PORTAL", font=("Helvetica", 10), bootstyle="inverse-dark").pack(anchor=W)
         
-        # Current User Info
         user_frame = ttk.Frame(self.sidebar, bootstyle="dark")
         user_frame.pack(fill=X, padx=10, pady=(0, 20))
         ttk.Label(user_frame, text=f"Xin chào, {self.user_info['username']}", font=("Helvetica", 12), bootstyle="inverse-dark").pack(anchor=W)
         ttk.Label(user_frame, text=f"Role: {self.user_info['role']}", font=("Helvetica", 10, "italic"), bootstyle="inverse-dark").pack(anchor=W)
         
-        # Main Content Frame
         self.content = ttk.Frame(self)
         self.content.pack(side=RIGHT, fill=BOTH, expand=YES)
         
         ttk.Separator(self.sidebar, orient=HORIZONTAL, bootstyle="secondary").pack(fill=X, padx=10, pady=10)
         
-        # Nav buttons
         self.nav_btns = {}
         if self.user_info['role'] == 'Admin':
             self.add_nav_btn("📊 Dashboard Overview", DashboardView)
@@ -65,11 +59,9 @@ class MainView(ttk.Frame):
         else:
             self.add_nav_btn("🛒 POS (Bán Hàng)", POSView, self.user_info)
             
-        # Logout button
         logout_btn = ttk.Button(self.sidebar, text="🚪 Logout", bootstyle="danger", command=self.logout)
         logout_btn.pack(side=BOTTOM, fill=X, pady=20, padx=10)
         
-        # Show default frame
         if self.user_info['role'] == 'Admin':
             self.show_frame(DashboardView)
         else:
@@ -79,7 +71,6 @@ class MainView(ttk.Frame):
         command = lambda: self.show_frame(FrameClass, *args)
         btn = ttk.Button(self.sidebar, text=text, bootstyle="dark-outline", command=command)
         
-        # Thêm hiệu ứng hover (đổi màu khi trỏ chuột thành màu đỏ nhạt)
         def on_enter(e):
             if getattr(self, 'current_frame_class', None) != FrameClass:
                 btn.configure(bootstyle="danger-outline")
@@ -98,7 +89,7 @@ class MainView(ttk.Frame):
         self.current_frame_class = FrameClass
         for fc, btn in self.nav_btns.items():
             if fc == FrameClass:
-                btn.configure(bootstyle="danger") # Đổi sang màu đỏ
+                btn.configure(bootstyle="danger")
             else:
                 btn.configure(bootstyle="dark-outline")
                 
